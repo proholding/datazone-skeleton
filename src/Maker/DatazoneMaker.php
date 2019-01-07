@@ -72,6 +72,7 @@ final class DatazoneMaker extends AbstractMaker
             $entities = $this->doctrineHelper->getEntitiesForAutocomplete();
         else
             $entities = [$input->getArgument("entity-class")];
+        $cruds = [];
         foreach ($entities as $entity) {
             //$io->text($entity);
             $entityClassDetails = $generator->createClassNameDetails(
@@ -178,11 +179,14 @@ final class DatazoneMaker extends AbstractMaker
                     __DIR__ . '/crud/templates/' . $template . '.tpl.php',
                     $variables
                 );
+                if($template == 'index')
+                    $cruds[] = $variables;
             }
             $generator->writeChanges();
             $this->writeSuccessMessage($io);
             $io->text(sprintf('Next: Check your new CRUD by going to <fg=yellow>%s/</>', Str::asRoutePath($controllerClassDetails->getRelativeNameWithoutSuffix())));
         }
+        $generator->generateFile('templates/cruds.html.twig', __DIR__."/crud/templates/cruds.tpl.php", ['cruds' => $cruds]);
     }
 
     /**
