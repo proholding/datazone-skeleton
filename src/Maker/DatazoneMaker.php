@@ -187,6 +187,7 @@ final class DatazoneMaker extends AbstractMaker
             $io->text(sprintf('Next: Check your new CRUD by going to <fg=yellow>%s/</>', Str::asRoutePath($controllerClassDetails->getRelativeNameWithoutSuffix())));
         }
         $generator->generateFile('templates/cruds.html.twig', __DIR__."/crud/templates/cruds.tpl.php", ['cruds' => $cruds]);
+        $generator->writeChanges();
     }
 
     /**
