@@ -174,13 +174,13 @@ final class DatazoneMaker extends AbstractMaker
                 ],
             ];
             foreach ($templates as $template => $variables) {
+                if($template == 'index')
+                    $cruds[] = $variables;
                 $generator->generateFile(
                     'templates/' . $templatesPath . '/' . $template . '.html.twig',
                     __DIR__ . '/crud/templates/' . $template . '.tpl.php',
                     $variables
                 );
-                if($template == 'index')
-                    $cruds[] = $variables;
             }
             $generator->writeChanges();
             $this->writeSuccessMessage($io);
